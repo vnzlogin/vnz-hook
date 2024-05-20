@@ -1,0 +1,35 @@
+{
+  "name": "vnz-hook",
+  "version": "0.0.1",
+  "description": "Mouse and keyboard listener.",
+  "main": "index.js",
+  "dependencies": {
+    "eventemitter2": "~0.4.13"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vnzlogin/vnz-hook.git"
+  },
+  "keywords": [
+    "keyboard",
+    "shell",
+    "application",
+    "handle",
+    "mainwindowhandle",
+    "focus",
+    "activate",
+    "cycle",
+    "net",
+    "c#"
+  ],
+  "author": "vnzlogin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vnzlogin/vnz-hook/issues"
+  },
+  "homepage": "https://github.com/vnzlogin/vnz-hook#readme"
+}
