@@ -1,14 +1,35 @@
 var EventEmitter2 = require('eventemitter2').EventEmitter2;
 var spawn = require('child_process').spawn;
 var path = require("path");
-var isWindows = process.platform === "win32";
+
 
 var events = new EventEmitter2({wildcard: true});
-var noop = function () { };
 var hook = {
     windowsFocusManagementBinary: '',
     windowsFocusManagementBinaryDefault: path.join(__dirname, "WinFormsApp1", "WinFormsApp1", "bin", "Release", "net6.0-windows", "WinFormsApp1.exe"),
     ev: null,
+    sendText(hwnd, text) {
+        if(!this.windowsFocusManagementBinary) this.windowsFocusManagementBinary = this.windowsFocusManagementBinaryDefault
+        this.ev = spawn(this.windowsFocusManagementBinary, ['--sendText', text, hwnd]);
+        this.ev.stdout.on('data', (data) => {
+            console.log('data',data.toString())
+            // if(data.toString().includes("end")) {
+            //     this.ev.stdin.pause();
+            //     this.ev.kill();
+            // }
+        })
+    },
+    sendChar(hwnd, text, timeout = 0) {
+        if(!this.windowsFocusManagementBinary) this.windowsFocusManagementBinary = this.windowsFocusManagementBinaryDefault
+        this.ev = spawn(this.windowsFocusManagementBinary, ['--sendChar', text, hwnd, timeout]);
+        this.ev.stdout.on('data', (data) => {
+            console.log('data',data.toString())
+            if(data.toString().includes("end")) {
+                this.ev.stdin.pause();
+                this.ev.kill();
+            }
+        })
+    },
     start() {
         if(!this.windowsFocusManagementBinary) this.windowsFocusManagementBinary = this.windowsFocusManagementBinaryDefault
         this.ev = spawn(this.windowsFocusManagementBinary, []);
@@ -23,15 +44,17 @@ var hook = {
     },
     stop() {
         events.removeAllListeners()
-        this.ev.stdin.pause();
-        this.ev.kill();
+        if(this.ev) {
+            this.ev.stdin.pause();
+            this.ev.kill();
+        }
     }
 }
+// hook.sendText(790060, 'bà ơi bà cháu yêu bà lắm')
+// hook.sendChar(790060, '417;224;417;224;417;224;417;224;417;224;417;224', 100)
 // var event = hook.start()
 // event.on('key.*', function(data) {
 //     console.log(this['event'], data)
 // })
-// setTimeout(() => {
-//     hook.stop()
-// }, 5000)
+
 module.exports = hook
