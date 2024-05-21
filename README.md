@@ -15,14 +15,14 @@ Then require the package in your code:
 
 ```javascript
 var vnz_hook = require('vnz-hook');
-vnz_hook.windowsFocusManagementBinary = ... //replace jar path (optional)
+vnz_hook.windowsFocusManagementBinary = ... //replace exe path (optional)
 var hook = vnz_hook.start()
-// Listen to all key events (pressed, released, typed)
+// Listen to all key events (down, up)
 hook.on('key.*', function(data) {
     console.log(this.event + ' ' + data);
 });
 
-// Listen to all mouse events (click, pressed, released, moved, dragged)
+// Listen to all mouse events (click, down, up, moved, dragged)
 hook.on('mouse.*', function(data) {
     console.log(this.event + ' ' + data);
 });
