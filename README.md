@@ -1,80 +1,34 @@
-# node-vnz-node-process
-###### Manage application windows via a Node API - set focus, cycle active windows, and get active windows
+# VNZ-HOOK
+An event based, Global Keyboard and Mouse listener.
 
-- [Installation](#Installation)
-    - [Supported Platforms](#Supported_Platforms)
-- [Usage](#Usage)
-- [Contributing](#Contributing)
-- [License](#License)
-- [Contact](#Contact)
 
-## Installation
+## Why?
+Node didn't have any global keyboard and mouse listener available at the time.
 
-Requires Node 4+
 
-```
-    npm install vnz-node-process
-```
+## Getting started
+Install vnz-gkm via node.js package manager:
 
-### Supported Platforms
+    npm install vnz-hook --save
 
-Currently, this module is only supported on Windows, and uses a .NET console app to manage windows.
-
-Pull requests are welcome - it would be great to have this API work cross-platform.
-
-## Usage
-
-1) Get active processes
+Then require the package in your code:
 
 ```javascript
-    var processWindows = require("vnz-node-process");
+var vnz_hook = require('vnz-hook');
+vnz_hook.windowsFocusManagementBinary = ... //replace jar path (optional)
+var hook = vnz_hook.start()
+// Listen to all key events (pressed, released, typed)
+hook.on('key.*', function(data) {
+    console.log(this.event + ' ' + data);
+});
 
-    var activeProcesses = processWindows.getProcesses(function(err, processes) {
-        processes.forEach(function (p) {
-            console.log("PID: " + p.pid.toString());
-            console.log("MainWindowTitle: " + p.mainWindowTitle);
-            console.log("ProcessName: " + p.processName);
-        });
-    });
+// Listen to all mouse events (click, pressed, released, moved, dragged)
+hook.on('mouse.*', function(data) {
+    console.log(this.event + ' ' + data);
+});
+//stop listener
+vnz_hook.stop()
 ```
-
-2) Focus a window
-
-```javascript
-    var processWindows = require("vnz-node-process");
-
-    // Focus window by process...
-    var activeProcesses = processWindows.getProcesses(function(err, processes) {
-        var chromeProcesses = processes.filter(p => p.processName.indexOf("chrome") >= 0);
-
-        // If there is a chrome process active, focus the first window
-        if(chromeProcesses.length > 0) {
-            processWindows.focusWindow(chromeProcesses[0]);
-        }
-    });
-
-    // Or focus by name
-    processWindows.focusWindow("chrome");
-```
-
-3) Get active window
-
-```javascript
-    var processWindows = require("vnz-node-process");
-
-    var currentActiveWindow = processWindows.getActiveWindow((err, processInfo) => {
-        console.log("Active window title: " + processInfo.mainWindowTitle);
-    });
-```
-
-## Contributing
-
-Pull requests are welcome
 
 ## License
-
-[MIT License]("LICENSE")
-
-## Contact
-
-support@vnzlogin.com
+The code is licensed under the MIT license (http://opensource.org/licenses/MIT). See license.txt.
