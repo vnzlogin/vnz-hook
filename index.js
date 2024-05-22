@@ -57,11 +57,16 @@ var hook = {
         }
     }
 }
-// hook.sendText(790060, 'bà ơi bà cháu yêu bà lắm')
-// hook.sendChar(790060, '417;224;417;224;417;224;417;224;417;224;417;224', 100)
 // var event = hook.start()
 // event.on('key.*', function(data) {
 //     console.log(this['event'], data)
 // })
+// async function Run() {
+//     //await hook.sendText(790060, 'bà ơi bà cháu yêu bà lắm')
+//     await hook.sendChar(790060, '417;224;417;224;417;224;417;224;417;224;417;224', 100)
+// }
+// Run()
+
+
 
 module.exports = hook

@@ -151,7 +151,7 @@ namespace WinFormsApp1
                             int cha = Int32.Parse(texts[i]);
                             Console.WriteLine("char:" + cha);
 
-                            SendMessageA(hwnd, 224, cha, 0);
+                            SendMessage(hwnd, WM_CHAR, cha, 0);
                             //Thread.Sleep(timeout);
                         }
                         Console.WriteLine("end");
@@ -176,6 +176,8 @@ namespace WinFormsApp1
         public static extern int SendMessageW(IntPtr hWnd, int wMsg, int wParam, string lParam);
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         public static extern int SendMessageA(IntPtr hWnd, int wMsg, int wParam, int lParam);
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        public static extern int SendMessage(IntPtr hWnd, int wMsg, int wParam, int lParam);
         //include FindWindowEx
         [DllImport("user32.dll")]
         public static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);

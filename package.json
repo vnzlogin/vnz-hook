@@ -1,6 +1,6 @@
 {
   "name": "vnz-hook",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Mouse and keyboard listener.",
   "main": "index.js",
   "dependencies": {
