@@ -9,26 +9,33 @@ var hook = {
     windowsFocusManagementBinaryDefault: path.join(__dirname, "WinFormsApp1", "WinFormsApp1", "bin", "Release", "net6.0-windows", "WinFormsApp1.exe"),
     ev: null,
     sendText(hwnd, text) {
-        if(!this.windowsFocusManagementBinary) this.windowsFocusManagementBinary = this.windowsFocusManagementBinaryDefault
-        let ev = spawn(this.windowsFocusManagementBinary, ['--sendText', text, hwnd]);
-        ev.stdout.on('data', (data) => {
-            console.log('data',data.toString())
-            if(data.toString().includes("end")) {
-                ev.stdin.pause();
-                ev.kill();
-            }
+        return new Promise((resolve) => {
+            if(!this.windowsFocusManagementBinary) this.windowsFocusManagementBinary = this.windowsFocusManagementBinaryDefault
+            let ev = spawn(this.windowsFocusManagementBinary, ['--sendText', text, hwnd]);
+            ev.stdout.on('data', (data) => {
+                console.log('data',data.toString())
+                if(data.toString().includes("end")) {
+                    ev.stdin.pause();
+                    ev.kill();
+                    resolve('ok')
+                }
+            })
         })
     },
     sendChar(hwnd, text, timeout = 0) {
-        if(!this.windowsFocusManagementBinary) this.windowsFocusManagementBinary = this.windowsFocusManagementBinaryDefault
-        let ev = spawn(this.windowsFocusManagementBinary, ['--sendChar', text, hwnd, timeout]);
-        ev.stdout.on('data', (data) => {
-            console.log('data',data.toString())
-            if(data.toString().includes("end")) {
-                ev.stdin.pause();
-                ev.kill();
-            }
+        return new Promise((resolve) => {
+            if(!this.windowsFocusManagementBinary) this.windowsFocusManagementBinary = this.windowsFocusManagementBinaryDefault
+            let ev = spawn(this.windowsFocusManagementBinary, ['--sendChar', text, hwnd, timeout]);
+            ev.stdout.on('data', (data) => {
+                console.log('data',data.toString())
+                if(data.toString().includes("end")) {
+                    ev.stdin.pause();
+                    ev.kill();
+                    resolve('ok')
+                }
+            })
         })
+        
     },
     start() {
         if(!this.windowsFocusManagementBinary) this.windowsFocusManagementBinary = this.windowsFocusManagementBinaryDefault
